@@ -16,8 +16,8 @@ xaringanExtra::use_clipboard()
 ## library("abc")
 
 ## # Install & load `vegan` package
-## install.packages('vegan')
-## library('vegan')
+install.packages('vegan')
+library('vegan')
 
 # simple help on the use of a function
 median
@@ -72,8 +72,8 @@ fish # print my object `fish`
 fish<-read.table('data/reef_fish.txt', header=T, sep='\t', dec='.') 
 
 ## # import file by path name
-## fish<-read.table ("D:/.../data/reef_fish.txt",header = TRUE,sep="\t", dec=".")# long version
-## fish<-read.table("D:/.../data/reef_fish.txt", TRUE, "\t",".")# short version
+fish<-read.table ("Data/reef_fish.txt",header = TRUE,sep="\t", dec=".")# long version
+fish<-read.table("Data/reef_fish.txt", TRUE, "\t",".")# short version
 
 ## fish<-read.table(file.choose (), header = TRUE,sep="\t", dec=".")
 

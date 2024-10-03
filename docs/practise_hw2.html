@@ -47,6 +47,114 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { color: #585cf6; } /* Constant */
+code span.co { color: #4c886b; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.dv { color: #0000cd; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cd; } /* Float */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { color: #687687; } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #036a07; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -371,59 +479,72 @@ div.tocify {
 </div>
 
 
-<p>library (dplyr) # Load the dataset data &lt;- read.table(“<a
-href="https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt"
-class="uri">https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt</a>”,
-header = TRUE, stringsAsFactors = FALSE)</p>
-<div id="view-the-initial-structure-of-the-data" class="section level1">
-<h1>View the initial structure of the data</h1>
-<p>str(data)</p>
+<div id="load-the-dataset" class="section level1">
+<h1>Load the dataset</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span> (dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">str</span>(data)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    48 obs. of  13 variables:
+##  $ day3     : int  2 5 5 7 0 7 0 5 2 3 ...
+##  $ day4     : int  13 22 26 24 9 30 11 31 17 19 ...
+##  $ day5     : int  34 60 34 61 31 66 26 78 37 52 ...
+##  $ day6     : int  85 95 73 91 61 91 61 110 74 93 ...
+##  $ day7     : int  112 108 96 101 92 116 92 121 81 103 ...
+##  $ day8     : int  121 116 111 117 116 129 109 126 81 106 ...
+##  $ germinate: int  18 19 18 17 12 18 19 15 19 18 ...
+##  $ bed      : chr  &quot;paper4&quot; &quot;mould1&quot; &quot;paper8&quot; &quot;mould2&quot; ...
+##  $ treatment: chr  &quot;nutrient&quot; &quot;nutrient&quot; &quot;nutrient&quot; &quot;nutrient&quot; ...
+##  $ spatial1 : chr  &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; &quot;upper&quot; ...
+##  $ spatial2 : chr  &quot;left&quot; &quot;left&quot; &quot;left&quot; &quot;left&quot; ...
+##  $ row      : int  1 2 3 4 5 6 7 8 1 2 ...
+##  $ column   : int  1 1 1 1 1 1 1 1 2 2 ...</code></pre>
+</div>
+<div id="replace-nutrient-with-enriched-in-the-treatment-variable"
+class="section level1">
+<h1>Replace “nutrient” with “enriched” in the treatment variable</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>data<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;nutrient&quot;</span>, <span class="st">&quot;enriched&quot;</span>, data<span class="sc">$</span>treatment)</span></code></pre></div>
 </div>
 <div
-id="step-1-replace-nutrient-with-enriched-in-the-treatment-variable"
+id="reshape-the-data-into-long-format-to-create-a-single-day-variable"
 class="section level1">
-<h1>Step 1: Replace “nutrient” with “enriched” in the treatment
+<h1>Reshape the data into long format to create a single ‘day’
 variable</h1>
-<p>data<span class="math inline">\(treatment &lt;-
-gsub(&quot;nutrient&quot;, &quot;enriched&quot;,
-data\)</span>treatment)</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;day&quot;</span>), </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;day&quot;</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;length&quot;</span>)</span></code></pre></div>
 </div>
 <div
-id="step-2-reshape-the-data-into-long-format-to-create-a-single-day-variable"
+id="combine-spatial1-and-spatial2-into-a-new-column-called-upper_left"
 class="section level1">
-<h1>Step 2: Reshape the data into long format to create a single ‘day’
-variable</h1>
-<p>data_long &lt;- data %&gt;% pivot_longer(cols = starts_with(“day”),
-names_to = “day”, values_to = “length”)</p>
-</div>
-<div
-id="step-3-combine-spatial1-and-spatial2-into-a-new-column-called-upper_left"
-class="section level1">
-<h1>Step 3: Combine Spatial1 and Spatial2 into a new column called
+<h1>Combine Spatial1 and Spatial2 into a new column called
 ‘upper_left’</h1>
-<p>data_long &lt;- data_long %&gt;% mutate(upper_left = paste(spatial1,
-spatial2, sep = “_“))</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">upper_left =</span> <span class="fu">paste</span>(spatial1, spatial2, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>))</span></code></pre></div>
 </div>
-<div id="step-4-remove-the-row-column-spatial1-and-spatial2-columns"
+<div id="remove-the-row-column-spatial1-and-spatial2-columns"
 class="section level1">
-<h1>Step 4: Remove the row, column, Spatial1, and Spatial2 columns</h1>
-<p>data_long &lt;- data_long %&gt;% select(-c(row, column, spatial1,
-spatial2))</p>
+<h1>Remove the row, column, Spatial1, and Spatial2 columns</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> data_long <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(row, column, spatial1, spatial2))</span></code></pre></div>
 </div>
-<div id="step-5-convert-day-into-a-factor-with-the-correct-levels"
+<div id="convert-day-into-a-factor-with-the-correct-levels.-create-csv"
 class="section level1">
-<h1>Step 5: Convert ‘day’ into a factor with the correct levels</h1>
-<p>data_long<span class="math inline">\(day &lt;-
-factor(data_long\)</span>day, levels = c(“day3”, “day4”, “day5”, “day6”,
-“day7”, “day8”))</p>
-</div>
-<div id="view-the-cleaned-and-reformatted-data" class="section level1">
-<h1>View the cleaned and reformatted data</h1>
-<p>head(data_long)</p>
-</div>
-<div id="write-the-cleaned-data-to-a-csv-file" class="section level1">
-<h1>Write the cleaned data to a CSV file</h1>
-<p>write.csv(data_long, “cleaned_data.csv”, row.names = FALSE)</p>
+<h1>Convert ‘day’ into a factor with the correct levels. Create csv</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>data_long<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">factor</span>(data_long<span class="sc">$</span>day, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;day3&quot;</span>, <span class="st">&quot;day4&quot;</span>, <span class="st">&quot;day5&quot;</span>, <span class="st">&quot;day6&quot;</span>, <span class="st">&quot;day7&quot;</span>, <span class="st">&quot;day8&quot;</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">head</span>(data_long)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">write.csv</span>(data_long, <span class="st">&quot;cleaned_data.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 
 

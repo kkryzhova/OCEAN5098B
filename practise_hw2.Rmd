@@ -8,40 +8,47 @@ date: "2024-10-02"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-library (dplyr)
 # Load the dataset
+```{r}
+library (dplyr)
 data <- read.table("https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt", header = TRUE, stringsAsFactors = FALSE)
 
-# View the initial structure of the data
 str(data)
+```
 
-# Step 1: Replace "nutrient" with "enriched" in the treatment variable
+# Replace "nutrient" with "enriched" in the treatment variable
+```{r eval = FALSE}
+
 data$treatment <- gsub("nutrient", "enriched", data$treatment)
-
-# Step 2: Reshape the data into long format to create a single 'day' variable
+```
+# Reshape the data into long format to create a single 'day' variable
+```{r eval = FALSE}
 data_long <- data %>%
   pivot_longer(cols = starts_with("day"), 
                names_to = "day", 
                values_to = "length")
+```
 
-# Step 3: Combine Spatial1 and Spatial2 into a new column called 'upper_left'
+# Combine Spatial1 and Spatial2 into a new column called 'upper_left'
+```{r eval = FALSE}
 data_long <- data_long %>%
   mutate(upper_left = paste(spatial1, spatial2, sep = "_"))
+```
 
-# Step 4: Remove the row, column, Spatial1, and Spatial2 columns
+# Remove the row, column, Spatial1, and Spatial2 columns
+```{r eval = FALSE}
 data_long <- data_long %>%
   select(-c(row, column, spatial1, spatial2))
+```
 
-# Step 5: Convert 'day' into a factor with the correct levels
+# Convert 'day' into a factor with the correct levels. Create csv
+```{r eval = FALSE}
 data_long$day <- factor(data_long$day, levels = c("day3", "day4", "day5", "day6", "day7", "day8"))
 
-# View the cleaned and reformatted data
 head(data_long)
 
-
-# Write the cleaned data to a CSV file 
 write.csv(data_long, "cleaned_data.csv", row.names = FALSE)
-
+```
 
 
 

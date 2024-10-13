@@ -8,35 +8,50 @@ date: "2024-10-10"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Load necessary library
-library(tidyr)
 
-# Create the initial data frame with plant heights at the start and end of the experiment
+# PRACTISE 3.2 
+# Topic: Data types and structures
+
+```{r setup, include=FALSE}
+library(tidyr)
+```
+
+# Creating the initial data frame with plant heights at the start and end of the experiment
+
+```{r setup, include=FALSE}
 df <- data.frame(
   plant = c("plant 1", "plant 2", "plant 3", "plant 4", "plant 5"),
   start_experiment = c(12.0, 15.5, 10.2, 13.5, 14.8),
   end_experiment = c(14.0, 16.2, 9.5, 14.0, 15.3)
 )
-
-# Reshape the data frame to have the height in one column and the time of the measurement as a factor
+```
+# Reshaping the data frame to have the height in one column and the time of the measurement as a factor
+```{r setup, include=FALSE}
 df_melted <- gather(df, key = "time", value = "height", start_experiment, end_experiment)
 df_melted$time <- factor(df_melted$time)
+```
 
-# Create the growth list
+# Creating the growth list
+```{r setup, include=FALSE}
 row_names <- rownames(df)
 initial_heights <- df$start_experiment
 final_heights <- df$end_experiment
+```
 
-# Calculate the percentage change in height for each plant
+# Calculating the percentage change in height for each plant
+```{r setup, include=FALSE}
 growth_percentage <- ((final_heights - initial_heights) / initial_heights) * 100
-
-# Create a table with plants and their corresponding growth
+```
+# Creating a table with plants and their corresponding growth
+```{r setup, include=FALSE}
 growth_table <- data.frame(
   plant = df$plant,
   growth = growth_percentage
 )
+```
 
-# Create the 'my.experiment' list
+# Creating the 'my.experiment' list
+```{r setup, include=FALSE}
 my.experiment <- list(
   data = df_melted,
   growth = list(
@@ -44,8 +59,11 @@ my.experiment <- list(
     growth_percentage = growth_percentage,
     growth_table = growth_table
   ),
-  message = "The plants showed varying growth, with some increasing and others decreasing in height."
+  message = "The plants have varying growth, with some increasing and others decreasing in height."
 )
+```
 
 # Print the results
+```{r setup, include=FALSE}
 print(my.experiment)
+```

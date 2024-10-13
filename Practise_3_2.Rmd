@@ -1,5 +1,5 @@
 ---
-title: "data_type"
+title: "Topic: Data types and structures. PRACTISE 3.2"
 output: html_document
 date: "2024-10-10"
 ---
@@ -9,16 +9,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# PRACTISE 3.2 
-# Topic: Data types and structures
 
-```{r setup, include=FALSE}
+
 library(tidyr)
-```
+
 
 # Creating the initial data frame with plant heights at the start and end of the experiment
 
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 df <- data.frame(
   plant = c("plant 1", "plant 2", "plant 3", "plant 4", "plant 5"),
   start_experiment = c(12.0, 15.5, 10.2, 13.5, 14.8),
@@ -26,24 +24,24 @@ df <- data.frame(
 )
 ```
 # Reshaping the data frame to have the height in one column and the time of the measurement as a factor
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 df_melted <- gather(df, key = "time", value = "height", start_experiment, end_experiment)
 df_melted$time <- factor(df_melted$time)
 ```
 
 # Creating the growth list
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 row_names <- rownames(df)
 initial_heights <- df$start_experiment
 final_heights <- df$end_experiment
-```
 
+```
 # Calculating the percentage change in height for each plant
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 growth_percentage <- ((final_heights - initial_heights) / initial_heights) * 100
 ```
 # Creating a table with plants and their corresponding growth
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 growth_table <- data.frame(
   plant = df$plant,
   growth = growth_percentage
@@ -51,7 +49,7 @@ growth_table <- data.frame(
 ```
 
 # Creating the 'my.experiment' list
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 my.experiment <- list(
   data = df_melted,
   growth = list(
@@ -62,8 +60,7 @@ my.experiment <- list(
   message = "The plants have varying growth, with some increasing and others decreasing in height."
 )
 ```
-
 # Print the results
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 print(my.experiment)
 ```

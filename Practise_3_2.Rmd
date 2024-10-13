@@ -1,0 +1,51 @@
+---
+title: "data_type"
+output: html_document
+date: "2024-10-10"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load necessary library
+library(tidyr)
+
+# Create the initial data frame with plant heights at the start and end of the experiment
+df <- data.frame(
+  plant = c("plant 1", "plant 2", "plant 3", "plant 4", "plant 5"),
+  start_experiment = c(12.0, 15.5, 10.2, 13.5, 14.8),
+  end_experiment = c(14.0, 16.2, 9.5, 14.0, 15.3)
+)
+
+# Reshape the data frame to have the height in one column and the time of the measurement as a factor
+df_melted <- gather(df, key = "time", value = "height", start_experiment, end_experiment)
+df_melted$time <- factor(df_melted$time)
+
+# Create the growth list
+row_names <- rownames(df)
+initial_heights <- df$start_experiment
+final_heights <- df$end_experiment
+
+# Calculate the percentage change in height for each plant
+growth_percentage <- ((final_heights - initial_heights) / initial_heights) * 100
+
+# Create a table with plants and their corresponding growth
+growth_table <- data.frame(
+  plant = df$plant,
+  growth = growth_percentage
+)
+
+# Create the 'my.experiment' list
+my.experiment <- list(
+  data = df_melted,
+  growth = list(
+    plants = row_names,
+    growth_percentage = growth_percentage,
+    growth_table = growth_table
+  ),
+  message = "The plants showed varying growth, with some increasing and others decreasing in height."
+)
+
+# Print the results
+print(my.experiment)

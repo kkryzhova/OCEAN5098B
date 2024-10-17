@@ -1,0 +1,41 @@
+---
+title: "hw practise graphics"
+output: html_document
+date: "2024-10-16"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r setup, include=FALSE}
+graphics.off()
+rm(list = ls())
+```
+# Reading data 
+```
+data(iris)
+iris
+```
+```{r setup, include=FALSE}
+pdf(file = "practise_plot_iris.pdf",  width = 7, height = 5, paper = "A4")
+
+# Creating the initial scatter plot and decorating it 
+plot(iris$Petal.Length, iris$Petal.Width,
+     pch = c(1, 2, 3)[as.numeric(iris$Species)],
+     col = c("black", "red", "green")[as.numeric(iris$Species)],
+     xlab = "Petal length (cm)", 
+     ylab = "Petal width (cm)",
+     main = "Petal width vs. length")
+
+legend("topleft", legend = levels(iris$Species),
+       pch = c(1, 2, 3), 
+       col = c("black", "red", "green"))
+
+abline(lm(iris$Petal.Width ~ iris$Petal.Length), col = "black")
+
+R <- round(cor(iris$Petal.Length, iris$Petal.Width), 2)
+text(6, 0.5, paste("R =", R))
+
+
+dev.off()
+```

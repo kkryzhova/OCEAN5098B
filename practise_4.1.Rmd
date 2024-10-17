@@ -1,5 +1,5 @@
 ---
-title: "hw practise graphics"
+title: "Hw practise - graphics"
 output: html_document
 date: "2024-10-16"
 ---
@@ -7,7 +7,7 @@ date: "2024-10-16"
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 graphics.off()
 rm(list = ls())
 ```
@@ -16,7 +16,7 @@ rm(list = ls())
 data(iris)
 iris
 ```
-```{r setup, include=FALSE}
+```{r eval = FALSE}
 pdf(file = "practise_plot_iris.pdf",  width = 7, height = 5, paper = "A4")
 
 # Creating the initial scatter plot and decorating it 
@@ -37,5 +37,16 @@ R <- round(cor(iris$Petal.Length, iris$Petal.Width), 2)
 text(6, 0.5, paste("R =", R))
 
 
-dev.off()
+```
+# Extra task with 'pairs'
+```{r eval = FALSE}
+
+pairs(iris[1:4], 
+      main = "Scatterplot Matrix of Iris Data",
+      pch = 21, 
+      bg = c("red", "green3", "blue")[unclass(iris$Species)],
+      upper.panel = NULL)
+     dev.off()
+
+
 ```

@@ -36,7 +36,7 @@ abline(lm(iris$Petal.Width ~ iris$Petal.Length), col = "black")
 R <- round(cor(iris$Petal.Length, iris$Petal.Width), 2)
 text(6, 0.5, paste("R =", R))
 
-
+ dev.off()
 ```
 # Extra task with 'pairs'
 ```{r eval = FALSE}

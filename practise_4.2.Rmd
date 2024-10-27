@@ -1,0 +1,77 @@
+---
+title: "homework 4.2"
+output: html_document
+date: "2024-10-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eval = FALSE}
+rm(list = ls())
+
+library(readr)   
+library(ggplot2)
+library(tidyr)   
+library(dplyr)   
+```
+# Reading the txt file
+```{r eval = FALSE}
+rairuho <- read.table("https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt", header = TRUE, stringsAsFactors = FALSE)
+```
+
+# Converting the dataset to a long format 
+
+```{r eval = FALSE}
+rairuho_long <- rairuho %>%
+  pivot_longer(cols = starts_with("day"), 
+               names_to = "day", 
+               values_to = "growth")
+```
+
+# Manipulating with time
+
+```{r eval = FALSE}
+rairuho_long$day <- as.numeric(gsub("day", "", rairuho_long$day))
+
+rairuho_complete <- rairuho_long %>%
+  complete(day = 3:8, treatment, fill = list(growth = NA)) 
+
+daily_medians <- rairuho_long %>%
+  group_by(day, treatment) %>%
+  summarize(median_growth = median(growth, na.rm = TRUE), .groups = 'drop')
+
+rairuho_long <- rairuho_long %>%
+  left_join(daily_medians, by = c("day", "treatment"))
+```
+
+# Creating the plot with the desired geoms and aesthetics
+
+```{r eval = FALSE}
+p<-ggplot(data = rairuho_long, aes(x = factor(day), y = growth, fill = treatment)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7) +  
+  geom_point(aes(color = treatment), 
+             position = position_jitter(width = 0.2), 
+             size = 1.5, 
+             alpha = 0.5) + 
+    geom_smooth(data = rairuho_long, aes(x = day-2, y = growth, color = treatment), 
+              method = "loess", se = FALSE, size = 1.2, na.rm = TRUE) + 
+  labs(title = "Grass growth",
+       x = "Days",
+       y = "Growth (cm)",
+       fill = "Treatment type",
+       color = "Treatment type") +  
+  theme_minimal() +  
+  theme(text = element_text(size = 12), 
+        plot.title = element_text(hjust = 0.5, face = "bold"),  
+        legend.position = "top") + 
+  scale_fill_manual(values = c("nutrient" = "#4CAF50", "water" = "#2196F3")) +  
+  scale_color_manual(values = c("nutrient" = "#4CAF50", "water" = "#2196F3"))  
+```
+
+# Saving the plot in pdf
+
+```{r eval = FALSE}
+  ggsave("rairuho.pdf", plot = p, width = 8, height = 6)  
+```

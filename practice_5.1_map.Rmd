@@ -1,0 +1,109 @@
+---
+title: "Practice 5.1"
+output: html_document
+date: "2024-11-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eval = FALSE}
+rm(list = ls())
+install.packages("rgbif")
+install.packages("maps")
+
+library(rgbif)
+library(dplyr)
+library(ggplot2)
+library(maps)
+```
+
+# 1) Downloading occurrence data fron GBIF for 3 commercial fish species
+```{r eval = FALSE}
+## Atlantic cod
+cod_data <- occ_search(
+  scientificName = "Gadus morhua", 
+  hasCoordinate = TRUE,
+  basisOfRecord = 'HUMAN_OBSERVATION',
+  limit = 1000
+)
+cod_data <- cod_data$data
+
+## European plaice
+plaice_data <- occ_search(
+  scientificName = "Pleuronectes platessa", 
+  hasCoordinate = TRUE,
+  basisOfRecord = 'HUMAN_OBSERVATION',
+  limit = 1000
+)
+plaice_data <- plaice_data$data
+
+## Atlantic herring
+herring_data <- occ_search(
+  scientificName = "Clupea harengus", 
+  hasCoordinate = TRUE,
+  basisOfRecord = 'HUMAN_OBSERVATION',
+  limit = 1000
+)
+herring_data <- herring_data$data
+```
+# 2) Extracting the desired geographic area for the North Sea 
+```{r eval = FALSE}
+xlim_f <- c(-5, 12)
+ylim_f <- c(50, 60)
+
+cod_data <- cod_data %>%
+  filter(decimalLongitude >= xlim_f[1], decimalLongitude <= xlim_f[2],
+         decimalLatitude >= ylim_f[1], decimalLatitude <= ylim_f[2])
+
+plaice_data <- plaice_data %>%
+  filter(decimalLongitude >= xlim_f[1], decimalLongitude <= xlim_f[2],
+         decimalLatitude >= ylim_f[1], decimalLatitude <= ylim_f[2])
+
+herring_data <- herring_data %>%
+  filter(decimalLongitude >= xlim_f[1], decimalLongitude <= xlim_f[2],
+         decimalLatitude >= ylim_f[1], decimalLatitude <= ylim_f[2])
+```
+
+# 3) Setting basic plot parameters
+```{r eval = FALSE}
+par(mar = c(4, 4, 2, 2))
+```
+
+# 4) Creating the map 
+
+```{r eval = FALSE}
+maps::map('world', 
+          xlim = c(-10, 15),    
+          ylim = c(49, 62),    
+          fill = TRUE,          
+          col = "grey80",   
+          bg = "white")         
+map.axes()
+mtext("Longitude", side = 1, line = 2.5, cex = 1.2) 
+mtext("Latitude", side = 2, line = 2.5, cex = 1.2)   
+
+points(cod_data$decimalLongitude, cod_data$decimalLatitude, 
+       col = 'red', pch = 19, cex = 0.6)
+points(plaice_data$decimalLongitude, plaice_data$decimalLatitude, 
+       col = 'blue', pch = 19, cex = 0.6)
+points(herring_data$decimalLongitude, herring_data$decimalLatitude, 
+       col = 'green', pch = 19, cex = 0.6)
+
+legend("bottomright", 
+       legend = c("Atlantic Cod", "European Plaice", "Atlantic Herring"),
+       col = c("red", "blue", "green"), 
+       pch = 19,
+       cex = 0.7,
+       bg = "white")
+
+title("Commercial fish species in the North Sea")
+```
+# 5) Summary of records found
+```{r eval = FALSE}
+cat("Number of records found:\n")
+cat("Atlantic Cod:", nrow(cod_data), "\n")
+cat("European Plaice:", nrow(plaice_data), "\n")
+cat("Atlantic Herring:", nrow(herring_data), "\n")
+```

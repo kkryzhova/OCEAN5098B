@@ -480,8 +480,8 @@ div.tocify {
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
-<div id="load-the-dataset" class="section level1">
-<h1>Load the dataset</h1>
+<div id="loading-the-dataset" class="section level1">
+<h1>Loading the dataset</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>rairuoho <span class="ot">&lt;-</span> <span class="fu">read.table</span>(url, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
@@ -499,10 +499,11 @@ div.tocify {
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div
-id="apply-the-custom-pearson.test-function-to-test-correlation-in-each-treatment-group-nutrient-and-water-and-calculate-correlations"
+id="applying-the-custom-pearson.test-function-to-test-correlation-in-each-treatment-group-nutrient-and-water-and-calculate-correlations"
 class="section level1">
-<h1>Apply the custom pearson.test function to test correlation in each
-treatment group (nutrient and water) and calculate correlations</h1>
+<h1>Applying the custom pearson.test function to test correlation in
+each treatment group (nutrient and water) and calculate
+correlations</h1>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Nutrient</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>nutrient_data <span class="ot">&lt;-</span> <span class="fu">subset</span>(rairuoho, treatment <span class="sc">==</span> <span class="st">&quot;nutrient&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>nutrient_corr_day3_day4 <span class="ot">&lt;-</span> <span class="fu">pearson.test</span>(nutrient_data<span class="sc">$</span>day3, nutrient_data<span class="sc">$</span>day4)</span>
@@ -532,9 +533,9 @@ treatment group (nutrient and water) and calculate correlations</h1>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Day 3 &amp; Day 8 Correlation:&quot;</span>, water_corr_day3_day8<span class="sc">$</span>correlation, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
 <span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    <span class="st">&quot;t-value:&quot;</span>, water_corr_day3_day8<span class="sc">$</span>t_value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
 <span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>    <span class="st">&quot;p-value:&quot;</span>, water_corr_day3_day8<span class="sc">$</span>p_value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div id="interpretation-of-results" class="section level2">
+<h2>Interpretation of Results:</h2>
 </div>
-<div id="interpretation-of-results" class="section level1">
-<h1>Interpretation of Results:</h1>
 <div
 id="correlation-strength-and-significance-function-output-will-provide-the-pearson-correlation-coefficient-r-degrees-od-freedom-t-value-and-p-value-for-each-pair-of-days-day-3-day-4-and-day-3-day-8-within-both-treatments-nutrient-and-water."
 class="section level2">

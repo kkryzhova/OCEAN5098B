@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r eval = FALSE}
 library(dplyr)
 ```
-# Load the dataset 
+# Loading the dataset 
 ```{r eval = FALSE}
 url <- "https://www.dipintothereef.com/uploads/3/7/3/5/37359245/rairuoho.txt"
 rairuoho <- read.table(url, header = TRUE)
@@ -30,7 +30,7 @@ pearson.test <- function(x, y) {
 ```
 
 
-# Apply the custom pearson.test function to test correlation in each treatment group (nutrient and water) and calculate correlations
+# Applying the custom pearson.test function to test correlation in each treatment group (nutrient and water) and calculate correlations
 
 ```{r eval = FALSE}
 # Nutrient
@@ -64,7 +64,7 @@ cat("Day 3 & Day 8 Correlation:", water_corr_day3_day8$correlation, "\n",
     "t-value:", water_corr_day3_day8$t_value, "\n",
     "p-value:", water_corr_day3_day8$p_value, "\n")
 ```   
-# Interpretation of Results:
+## Interpretation of Results:
 
 ## Correlation Strength and Significance: function output will provide the Pearson correlation coefficient (r), degrees od freedom, t-value, and p-value for each pair of days (day 3 & day 4 and day 3 & day 8) within both treatments (nutrient and water).
 ## P-Value Interpretation: if the p-value is below a significance level, it indicates that there is a statistically significant correlation between the variables.

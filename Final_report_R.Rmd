@@ -4,6 +4,7 @@ output: html_document
 date: "2024-12-10"
 ---
 
+### This script allows to create any of the map with the selected grid size. Here I provide a smpale of the north Sea withe the 60arcmin grid bathymetry data, put onton the geomap of Norther Europe. 
 
 # Loading all the necessary packages
 ```{r setup}
@@ -28,7 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 xmin <- -4
 xmax <- 13
 ymin <- 49
-ymax <- 64  # Fixed the typo in ymax value
+ymax <- 64  
 
 north_sea <- ne_countries(scale = "medium", 
                           returnclass = "sf",

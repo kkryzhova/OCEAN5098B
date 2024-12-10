@@ -1,5 +1,5 @@
 ---
-title: "Final Project Kristina"
+title: "Final Project - Kristina Kryzhova"
 output: html_document
 date: "2024-12-10"
 ---

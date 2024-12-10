@@ -1,0 +1,131 @@
+---
+title: "Final Project Kristina"
+output: html_document
+date: "2024-12-10"
+---
+
+
+# Loading all the necessary packages
+```{r setup}
+# install.packages("marmap")
+# install.packages("sf")
+# install.packages("rnaturalearth")
+# install.packages("rnaturalearthdata")
+# install.packages("here")
+
+library(marmap)
+library(ggplot2)
+library(dplyr)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(here)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Defining the bourders of the study area - North Sea 
+```{r eval = FALSE}
+xmin <- -4
+xmax <- 13
+ymin <- 49
+ymax <- 64  # Fixed the typo in ymax value
+
+north_sea <- ne_countries(scale = "medium", 
+                          returnclass = "sf",
+                          continent = "europe") %>%
+  st_crop(xmin = xmin, xmax = xmax, 
+          ymin = ymin, ymax = ymax)
+```
+
+# Extracting the bathymetry data form NOAA NCEI
+```{r eval = FALSE}
+# Extend the boundaries by 0.5 degrees to ensure we capture all needed data
+bath_data <- getNOAA.bathy(lon1 = xmin - 0.5,
+                           lon2 = xmax + 0.5,
+                           lat1 = ymin - 0.5,
+                           lat2 = ymax + 0.5,
+                           resolution = 1)
+
+# Convert bathymetry data to xyz format (longitude, latitude, depth)
+bath_xyz <- as.xyz(bath_data)
+colnames(bath_xyz) <- c("lon", "lat", "depth")
+
+# Calculate mean depth for each grid cell and center the coordinates
+mean_depths <- as.data.frame(bath_xyz) %>%
+# Floor the coordinates and add 0.5 to center them
+  mutate(
+    lon_grid = floor(lon) + 0.5,
+    lat_grid = floor(lat) + 0.5
+  ) %>%
+  # Only keep points within our target grid cells
+  filter(
+    lon_grid >= xmin + 0.5,
+    lon_grid <= xmax - 0.5,
+    lat_grid >= ymin + 0.5,
+    lat_grid <= ymax - 0.5
+  ) %>%
+  group_by(lon_grid, lat_grid) %>%
+  summarize(mean_depth = mean(depth, na.rm = TRUE)) %>%
+  ungroup()
+```
+
+
+# Creating visualization - map
+```{r eval = FALSE}
+ggplot() +
+
+# Add the bathymetry tiles first (only for negative values)
+  geom_tile(data = mean_depths, 
+            aes(x = lon_grid, y = lat_grid, fill = pmin(mean_depth, 0))) +
+  scale_fill_gradientn(
+    colors = c("#03045E",  # Very dark blue (deepest)
+               "#023E8A",  # Dark blue
+               "#0077B6",  # Medium-dark blue
+               "#0096C7",  # Medium blue
+               "#00B4D8",  # Bright blue
+               "#48CAE4",  # Light bright blue
+               "#90E0EF",  # Very light blue
+               "#CAF0F8"), # Palest blue (shallowest)
+    name = "Depth (m)",
+    limits = c(min(mean_depths$mean_depth), 0),  # Set upper limit to 0
+    breaks = c(min(mean_depths$mean_depth),
+               -1000, -500, -200, 0),
+    labels = function(x) round(abs(x), 0),  # Format as positive numbers
+    guide = guide_colorbar(
+      barwidth = 1.5,
+      barheight = 15,
+      ticks.linewidth = 1.5,
+      frame.colour = "black",
+      frame.linewidth = 1
+    )
+  ) +
+  # Add land areas with a fixed color (for positive values)
+  geom_tile(data = subset(mean_depths, mean_depth > 0), 
+            aes(x = lon_grid, y = lat_grid), 
+            fill = "#E5E5E5",  # Light gray for land
+            width = 1, height = 1) +
+  # Add the sf layer on top
+  geom_sf(data = north_sea,
+          fill = NA,  # Make fill transparent
+          color = "black",
+          size = 0.5) +  # Adjust line thickness
+  coord_sf(xlim = c(xmin, xmax), 
+           ylim = c(ymin, ymax)) +
+  labs(
+    title = "Mean Ocean Depth in North Sea Region",
+    x = "Longitude",
+    y = "Latitude"
+  ) 
+```
+
+
+```{r eval = FALSE}
+ggsave("mean_depth_north_sea.pdf")
+
+# Print summary statistics
+cat("\nSummary of mean depths:\n")
+print(summary(mean_depths$mean_depth))
+
+# Print the number of grid cells
+cat("\nNumber of grid cells:", nrow(mean_depths), "\n")
+```

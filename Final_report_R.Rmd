@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Defining the bourders of the study area - North Sea 
-```{r eval = FALSE}
+```{r eval = TRUE}
 xmin <- -4
 xmax <- 13
 ymin <- 49
@@ -39,7 +39,7 @@ north_sea <- ne_countries(scale = "medium",
 ```
 
 # Extracting the bathymetry data form NOAA NCEI
-```{r eval = FALSE}
+```{r eval = TRUE}
 # Extend the boundaries by 0.5 degrees to ensure we capture all needed data
 bath_data <- getNOAA.bathy(lon1 = xmin - 0.5,
                            lon2 = xmax + 0.5,
@@ -72,7 +72,7 @@ mean_depths <- as.data.frame(bath_xyz) %>%
 
 
 # Creating visualization - map
-```{r eval = FALSE}
+```{r eval = TRUE}
 ggplot() +
 
 # Add the bathymetry tiles first (only for negative values)
@@ -120,7 +120,7 @@ ggplot() +
 ```
 
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 ggsave("mean_depth_north_sea.pdf")
 
 # Print summary statistics
